@@ -10,7 +10,6 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     likes = models.PositiveIntegerField(default=0)
-    dislikes = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.title
@@ -19,11 +18,11 @@ class Post(models.Model):
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    value = models.BooleanField()
+    post_like = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.user}:{self.post}:{self.value}'
+        return f'{self.user}:{self.post}:{self.post_like}'
 
     class Meta:
-        unique_together = ('user', 'post', 'value')
+        unique_together = ('user', 'post', 'post_like')
