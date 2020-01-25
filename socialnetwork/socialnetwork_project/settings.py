@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken', # generates the tokens on the server
     'rest_framework_simplejwt',
+    'rest_framework_swagger',
     'rest_auth', # login, logout, password reset
     'allauth',
     'allauth.account',
@@ -144,6 +145,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
 
 # Output the emails to the console
