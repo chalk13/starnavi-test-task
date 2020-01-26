@@ -60,8 +60,8 @@ class UserViewTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
 
-class UserAuthTest(APITestCase):
-    """Test user authentication"""
+class UserRegistrationTest(APITestCase):
+    """Test for user registration and info"""
 
     def setUp(self):
         self.data = {
@@ -92,4 +92,23 @@ class UserAuthTest(APITestCase):
             "/api/v1/rest-auth/user/",
             {'username': 'peter_pen'},
             format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class UserLogin(APITestCase):
+    """Test for user login"""
+
+    def setUp(self):
+        self.data = {
+            'username': 'testuser111',
+            'email': 'testuser111@email.com',
+            'password1': 'testpass123',
+            'password2': 'testpass123'}
+        self.client.post('/api/v1/rest-auth/registration/', self.data)
+
+    def test_user_login(self):
+        login_info = {
+            'username': self.data['username'],
+            'password': self.data['password1']}
+        response = self.client.post('/api/v1/rest-auth/login/', login_info)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
