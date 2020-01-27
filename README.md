@@ -8,6 +8,10 @@ Clone the repository to your local machine. With virtualenv enviroment activated
 ```
 $ pip install -r requirements.txt
 ```
+Apply the migrations:
+```
+python manage.py migrate
+```
 Use the following command to start the development server:
 ```
 python manage.py runserver
