@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 
-from .models import Post, Like
+from .models import Post
 
 
 class PostModelTest(TestCase):
@@ -37,7 +37,9 @@ class PostViewTest(APITestCase):
             username='testuser', password='abcd1234')
         self.post = Post.objects.create(
             title='Test title', body='Test body', author=self.user)
-        self.client.force_authenticate(user=self.user)
+        self.post_with_like = Post.objects.create(
+            title='Title test', body='Body test', author=self.user)
+        self.client.force_authenticate(user=self.user)   
 
     def test_post_list(self):
         response = self.client.get(self.url)
@@ -64,7 +66,8 @@ class PostViewTest(APITestCase):
             {
                 'title': 'Test title edited',
                 'body': 'Test body edited',
-                'author': self.user.id},
+                'author': self.user.id
+            },
             format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -72,8 +75,25 @@ class PostViewTest(APITestCase):
         response = self.client.delete(f'{self.url}{self.post.pk}/')
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
-    def test_post_detail_like(self):
-        pass
+    def test_post_like(self):
+        response = self.client.put(
+            f'{self.url}{self.post.pk}/like/',
+            {
+                'user': self.user.id,
+                'post': self.post.id,
+                'post_like': True
+            },
+            format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-    def test_post_detail_unlike(self):
-        pass
+    def test_post_unlike(self):
+        self.client.put(
+            f'{self.url}{self.post_with_like.pk}/like/',
+            {
+                'user': self.user.id,
+                'post': self.post_with_like.id,
+                'post_like': True
+            },
+            format='json')
+        response = self.client.delete(f'{self.url}{self.post_with_like.pk}/unlike/')
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
