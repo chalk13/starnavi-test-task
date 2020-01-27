@@ -20,7 +20,7 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PostSerializer
 
 
-class PostLike(generics.RetrieveUpdateAPIView):
+class PostLike(generics.UpdateAPIView):
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
 
@@ -36,7 +36,7 @@ class PostLike(generics.RetrieveUpdateAPIView):
         return Response(status=201, data={'msg': 'Post liked'})
 
 
-class PostUnlike(generics.RetrieveDestroyAPIView):
+class PostUnlike(generics.DestroyAPIView):
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
 
