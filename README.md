@@ -18,7 +18,7 @@ To run tests, use the following command:
 $ python manage.py test
 ```
 ### API endpoints
-The full list of API endpoints is available at the following urls:
-> http://127.0.0.1:8000/swagger-docs/  
+The full list of API endpoints is available at the following addresses:
+> 127.0.0.1:8000/swagger-docs/  
 
-> http://localhost:8000/swagger-docs/
+> localhost:8000/swagger-docs/
